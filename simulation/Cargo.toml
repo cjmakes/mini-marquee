@@ -6,5 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+mini-marquee = {path = "../"}
 embedded-graphics = "0.8.0"
 embedded-graphics-simulator = "0.5.0"

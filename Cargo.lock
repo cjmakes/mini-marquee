@@ -415,6 +415,7 @@ dependencies = [
  "cortex-m",
  "cortex-m-rt",
  "embedded-graphics",
+ "embedded-graphics-core",
  "embedded-graphics-simulator",
  "embedded-hal",
  "fugit",
@@ -809,6 +810,7 @@ version = "0.1.0"
 dependencies = [
  "embedded-graphics",
  "embedded-graphics-simulator",
+ "mini-marquee",
 ]
 
 [[package]]

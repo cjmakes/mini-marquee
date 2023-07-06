@@ -1,9 +1,6 @@
 #![no_std]
 #![no_main]
 
-
-
-
 use fugit::RateExtU32;
 use panic_halt as _;
 use waveshare_rp2040_zero::entry;
