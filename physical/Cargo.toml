@@ -1,8 +1,5 @@
-[workspace]
-members = ["physical", "simulation"]
-
 [package]
-name = "mini-marquee"
+name = "physical"
 version = "0.1.0"
 edition = "2021"
 
@@ -12,7 +9,6 @@ edition = "2021"
 cortex-m = "0.7.2"
 cortex-m-rt = { version = "0.7"}
 embedded-graphics = "0.8.0"
-embedded-graphics-simulator = "0.5.0"
 embedded-hal ="0.2.5"
 fugit = "0.3.5"
 nb = "1.0.0"
