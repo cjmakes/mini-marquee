@@ -13,10 +13,10 @@ pub fn draw_frame<D>(display: &mut D, t: i32) -> core::result::Result<(), D::Err
 where
     D: DrawTarget<Color = BinaryColor>
 {
-    // TODO(conjones) what trait requirements do I have to add to clear the frame here?
+    display.clear(BinaryColor::Off)?;
 
     let style = MonoTextStyle::new(&FONT_10X20, BinaryColor::On);
-    let txt = Text::new("hi caroline, i love you <3", Point::new(0, 20), style);
+    let txt = Text::new("some really long scrolling text", Point::new(0, 20), style);
 
     let dw:i32 = display.bounding_box().size.width.try_into().unwrap();
     let tw: i32 = txt.bounding_box().size.width.try_into().unwrap();

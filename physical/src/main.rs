@@ -1,16 +1,12 @@
 #![no_std]
 #![no_main]
 
-use embedded_graphics::pixelcolor::BinaryColor;
-use embedded_graphics::prelude::DrawTarget;
-use embedded_hal::timer::CountDown;
 use fugit::RateExtU32;
-use fugit::ExtU32;
 use panic_halt as _;
 use waveshare_rp2040_zero::entry;
 use waveshare_rp2040_zero::{
     hal::{
-        clocks::init_clocks_and_plls, i2c, pac, pio::PIOExt, timer::Timer, watchdog::Watchdog, Sio,
+        clocks::init_clocks_and_plls, i2c, pac, watchdog::Watchdog, Sio,
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
@@ -43,11 +39,6 @@ fn main() -> ! {
         &mut pac.RESETS,
     );
 
-    let timer = Timer::new(pac.TIMER, &mut pac.RESETS);
-    let _delay = timer.count_down();
-
-    // Configure the addressable LED
-    let (_pio, _sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let i2c = i2c::I2C::i2c1(
         pac.I2C1,
         pins.gp14.into_mode(), // sda
@@ -62,13 +53,11 @@ fn main() -> ! {
     let display = Ssd1306::new(interface, DisplaySize128x32, DisplayRotation::Rotate0);
     let mut display = display.into_buffered_graphics_mode();
     display.init().unwrap();
-    let mut delay = timer.count_down();
 
     let mut t = 0i32;
     loop {
+        mini_marquee::draw_frame(&mut display, t)?;
+        display.flush()?;
         t += 1;
-        display.clear(BinaryColor::Off);
-        mini_marquee::draw_frame(&mut display, t);
-        display.flush();
     }
 }
