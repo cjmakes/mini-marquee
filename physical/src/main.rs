@@ -1,15 +1,15 @@
 #![no_std]
 #![no_main]
 
-use embedded_graphics::mono_font::ascii::FONT_10X20;
-use embedded_hal::timer::CountDown;
-use fugit::ExtU32;
+
+
+
 use fugit::RateExtU32;
 use panic_halt as _;
 use waveshare_rp2040_zero::entry;
 use waveshare_rp2040_zero::{
     hal::{
-        clocks::{init_clocks_and_plls, Clock},
+        clocks::{init_clocks_and_plls},
         i2c, pac,
         pio::PIOExt,
         timer::Timer,
@@ -19,12 +19,7 @@ use waveshare_rp2040_zero::{
     Pins, XOSC_CRYSTAL_FREQ,
 };
 
-use embedded_graphics::{
-    mono_font::{ascii::FONT_6X10, MonoTextStyle},
-    pixelcolor::BinaryColor,
-    prelude::*,
-    text::Text,
-};
+
 use ssd1306::{prelude::*, I2CDisplayInterface, Ssd1306};
 
 #[entry]
@@ -33,7 +28,7 @@ fn main() -> ! {
 
     let mut watchdog = Watchdog::new(pac.WATCHDOG);
 
-    let clocks = init_clocks_and_plls(
+    let _clocks = init_clocks_and_plls(
         XOSC_CRYSTAL_FREQ,
         pac.XOSC,
         pac.CLOCKS,
@@ -54,10 +49,10 @@ fn main() -> ! {
     );
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS);
-    let mut delay = timer.count_down();
+    let _delay = timer.count_down();
 
     // Configure the addressable LED
-    let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
+    let (_pio, _sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
     let i2c = i2c::I2C::i2c1(
         pac.I2C1,
         pins.gp14.into_mode(), // sda
@@ -72,7 +67,7 @@ fn main() -> ! {
     let display = Ssd1306::new(interface, DisplaySize128x32, DisplayRotation::Rotate0);
     let mut display = display.into_buffered_graphics_mode();
     display.init().unwrap();
-    let mut delay = timer.count_down();
+    let _delay = timer.count_down();
 
     loop{}
 }
