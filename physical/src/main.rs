@@ -1,21 +1,19 @@
 #![no_std]
 #![no_main]
 
+use embedded_graphics::pixelcolor::BinaryColor;
+use embedded_graphics::prelude::DrawTarget;
+use embedded_hal::timer::CountDown;
 use fugit::RateExtU32;
+use fugit::ExtU32;
 use panic_halt as _;
 use waveshare_rp2040_zero::entry;
 use waveshare_rp2040_zero::{
     hal::{
-        clocks::{init_clocks_and_plls},
-        i2c, pac,
-        pio::PIOExt,
-        timer::Timer,
-        watchdog::Watchdog,
-        Sio,
+        clocks::init_clocks_and_plls, i2c, pac, pio::PIOExt, timer::Timer, watchdog::Watchdog, Sio,
     },
     Pins, XOSC_CRYSTAL_FREQ,
 };
-
 
 use ssd1306::{prelude::*, I2CDisplayInterface, Ssd1306};
 
@@ -64,7 +62,13 @@ fn main() -> ! {
     let display = Ssd1306::new(interface, DisplaySize128x32, DisplayRotation::Rotate0);
     let mut display = display.into_buffered_graphics_mode();
     display.init().unwrap();
-    let _delay = timer.count_down();
+    let mut delay = timer.count_down();
 
-    loop{}
+    let mut t = 0i32;
+    loop {
+        t += 1;
+        display.clear(BinaryColor::Off);
+        mini_marquee::draw_frame(&mut display, t);
+        display.flush();
+    }
 }
