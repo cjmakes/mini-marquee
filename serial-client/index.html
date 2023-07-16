@@ -1,0 +1,25 @@
+<html>
+<body>
+<input id="display-text" type="text" name="data" autofocus>
+<button id="pick">pick</button>
+<button id="write">write</button>
+
+<script>
+	const usbVendorId = 0xcafe;
+	var writer;
+
+	document.querySelector('#pick').addEventListener('click', async () => {
+		const port = await navigator.serial.requestPort({filters: [{ usbVendorId }] });
+		await port.open({ baudRate: 9600 });
+		const textEncoder = new TextEncoderStream();
+		const writableStreamClosed = textEncoder.readable.pipeTo(port.writable);
+		writer = textEncoder.writable.getWriter();
+	});
+
+	document.querySelector('#write').addEventListener('click', async () => {
+		const input = document.getElementById("display-text").value;
+		await writer.write(input);
+	});
+</script>
+</body>
+</html>
