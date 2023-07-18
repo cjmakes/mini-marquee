@@ -17,7 +17,7 @@ fn main() -> ! {
 
     let mut time = 0i32;
     loop {
-        draw_frame(&mut display, time).unwrap();
+        draw_frame(&mut display, time, "long scrolling text").unwrap();
         window.update(&display);
         time += 1;
         std::thread::sleep(time::Duration::from_millis(10));

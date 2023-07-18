@@ -56,8 +56,8 @@ fn main() -> ! {
 
     let mut t = 0i32;
     loop {
-        mini_marquee::draw_frame(&mut display, t)?;
-        display.flush()?;
-        t += 1;
+        mini_marquee::draw_frame(&mut display, t, "long scrolling text").unwrap();
+        display.flush().unwrap();
+        t += 5;
     }
 }
